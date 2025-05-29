@@ -1,56 +1,43 @@
-#include <bits/stdc++.h>
+#include <iostream>
 using namespace std;
 
-/*
-Intuition:
-- A palindrome reads the same backward as forward
-- Compare original number with its reverse
-*/
+// === Approach: Optimal (Reverse Integer) ===
+// Intuition:
+//   A number is a palindrome if it reads the same forwards and backwards.
+//   We reverse the number mathematically and compare it with the original.
+// Algorithm:
+//   1. Store the original number in a duplicate variable.
+//   2. Initialize revNum to 0.
+//   3. While the number is greater than 0:
+//       - Extract the last digit using n % 10.
+//       - Append it to revNum: revNum = revNum * 10 + digit.
+//       - Remove the last digit from n using n /= 10.
+//   4. If reversed number equals the original, it's a palindrome.
+// Time Complexity: O(log₁₀n) → number of digits in n
+// Space Complexity: O(1) → only a few integer variables
+// Use: This approach avoids string conversions and is efficient for numeric palindromes.
+bool isPalindrome(int n) {
+    int revNum = 0;
+    int dup = n;
 
-// Approach 1: Brute Force (String comparison)
-// Time: O(n)
-// Space: O(n)
-bool isPalindromeBrute(int x) {
-    if (x < 0) return false;
-    string s = to_string(x);
-    string rev = s;
-    reverse(rev.begin(), rev.end());
-    return s == rev;
-}
-
-// Approach 2: Better (Full number reversal)
-// Time: O(n)
-// Space: O(1)
-bool isPalindromeBetter(int x) {
-    if (x < 0) return false;
-    long reversed = 0;
-    int original = x;
-    while (x != 0) {
-        reversed = reversed * 10 + x % 10;
-        x /= 10;
+    while (n > 0) {
+        int ld = n % 10;              // Extract last digit
+        revNum = revNum * 10 + ld;    // Build reversed number
+        n = n / 10;                   // Remove last digit
     }
-    return original == reversed;
-}
 
-// Approach 3: Optimal (Half number comparison)
-// Time: O(n)
-// Space: O(1)
-bool isPalindromeOptimal(int x) {
-    if (x < 0 || (x % 10 == 0 && x != 0)) return false;
-    int reversed = 0;
-    while (x > reversed) {
-        reversed = reversed * 10 + x % 10;
-        x /= 10;
-    }
-    return x == reversed || x == reversed / 10;
+    return dup == revNum;
 }
 
 int main() {
-    int num;
-    cin >> num; // Input a number
-    
-    cout << "Brute: " << (isPalindromeBrute(num) ? "Yes" : "No") << endl;
-    cout << "Better: " << (isPalindromeBetter(num) ? "Yes" : "No") << endl;
-    cout << "Optimal: " << (isPalindromeOptimal(num) ? "Yes" : "No") << endl;
+    int number;
+    cin >> number; // Input a number
+
+    if (isPalindrome(number)) {
+        cout << number << " is a palindrome." << endl;
+    } else {
+        cout << number << " is not a palindrome." << endl;
+    }
+
     return 0;
 }
