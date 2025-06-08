@@ -1,119 +1,80 @@
-/**
- * Power Set Generation - Two Approaches
- * This program generates all possible subsequences (power set) of a given string
- * using both Recursive and Bitmasking approaches
- */
+/*
+Problem: Given an integer array nums of unique elements, return all possible subsets (the power set).
+The solution set must not contain duplicate subsets. Return the solution in any order.
 
-#include <iostream>
-#include <vector>
-#include <string>
+Intuition:
+- For each element, we have 2 choices: include it in sum or exclude it
+- Use recursion to try all combinations
+- Base case: when we reach end of array, add current sum to result
+
+Algorithm:
+1. Create recursive function that takes current index, array, and running sum
+2. At each step:
+   - Include current element in sum and recurse
+   - Exclude current element and recurse
+3. When reaching end of array, add sum to result
+4. Sort final result array
+
+Time Complexity: O(2^n) + O(2^n log(2^n))
+- O(2^n) for generating all subsets
+- O(2^n log(2^n)) for sorting result array
+
+Space Complexity: O(2^n)
+- To store all possible subset sums
+*/
+
+#include <bits/stdc++.h>
 using namespace std;
 
-/**
- * ============================================
- * APPROACH 1: RECURSIVE SOLUTION
- * ============================================
- * 
- * Time Complexity: O(2^n * n)
- * - For each character, we make 2 choices (include/exclude)
- * - Total 2^n subsequences
- * - Each subsequence can be up to n characters long
- * 
- * Space Complexity: O(n)
- * - Recursion stack depth is n (length of string)
- * - Additional space for storing results: O(2^n * n)
- * 
- * Intuition:
- * - At each character, we have two choices: include or exclude
- * - This creates a binary decision tree
- * - Each path from root to leaf represents one subsequence
- * - Total paths = 2^n (power set size)
- */
-
-void generateSubsequences(string &s, int i, string curr, vector<string> &res) {
-    // Base case: when we've processed all characters
-    if (i == s.size()) {
-        res.push_back(curr);
+// Function to find all subset sums
+void findSubsetSums(int index, vector<int>& arr, int n, vector<int>& result, int currentSum) {
+    // Base case: when we reach end of array, add current sum to result
+    if (index == n) {
+        result.push_back(currentSum);
         return;
     }
-
-    // Include the current character
-    generateSubsequences(s, i + 1, curr + s[i], res);
-
-    // Exclude the current character
-    generateSubsequences(s, i + 1, curr, res);
+    
+    // Include current element
+    findSubsetSums(index + 1, arr, n, result, currentSum + arr[index]);
+    
+    // Exclude current element
+    findSubsetSums(index + 1, arr, n, result, currentSum);
 }
 
-vector<string> getAllSubsequencesRecursive(string s) {
-    vector<string> res;
-    generateSubsequences(s, 0, "", res);
-    return res;
+// Main function to generate and return sorted subset sums
+vector<int> getAllSubsetSums(vector<int>& arr) {
+    vector<int> result;
+    findSubsetSums(0, arr, arr.size(), result, 0);
+    sort(result.begin(), result.end());
+    return result;
 }
 
-/**
- * ============================================
- * APPROACH 2: BITMASKING SOLUTION
- * ============================================
- * 
- * Time Complexity: O(2^n * n)
- * - We generate 2^n combinations
- * - For each combination, we process n bits
- * - Each subsequence can be up to n characters long
- * 
- * Space Complexity: O(2^n * n)
- * - Space needed to store all subsequences
- * - No recursion stack needed
- * 
- * Intuition:
- * - Each number from 0 to 2^n-1 represents a unique combination
- * - Each bit position corresponds to a character in the string
- * - 1 means include the character, 0 means exclude
- * - Example: For "abc", 101 (binary) = 5 (decimal) represents "ac"
- */
-
-vector<string> getAllSubsequencesBitmask(string s) {
-    int n = s.size();
-    int total = 1 << n; // 2^n
-    vector<string> res;
-
-    for (int mask = 0; mask < total; mask++) {
-        string curr = "";
-        for (int j = 0; j < n; j++) {
-            if (mask & (1 << j)) {
-                curr += s[j];
-            }
-        }
-        res.push_back(curr);
-    }
-
-    return res;
-}
-
-/**
- * ============================================
- * MAIN FUNCTION
- * ============================================
- */
 int main() {
-    string input;
-    cin >> input;
-
-    // Using Recursive Approach
-    cout << "\nUsing Recursive Approach:" << endl;
-    vector<string> powerSetRecursive = getAllSubsequencesRecursive(input);
-    for (const string &subseq : powerSetRecursive) {
-        cout << subseq << " ";
+    // Test cases
+    vector<vector<int>> testCases = {
+        {5, 2, 1},
+        {3, 1, 2}
+    };
+    
+    // Process each test case
+    for (int i = 0; i < testCases.size(); i++) {
+        cout << "Test Case " << i + 1 << ":" << endl;
+        cout << "Input array: ";
+        for (int num : testCases[i]) {
+            cout << num << " ";
+        }
+        cout << endl;
+        
+        // Get subset sums
+        vector<int> sums = getAllSubsetSums(testCases[i]);
+        
+        // Print results
+        cout << "Subset sums: ";
+        for (int sum : sums) {
+            cout << sum << " ";
+        }
+        cout << endl << endl;
     }
-    cout << "\nTotal number of subsequences: " << powerSetRecursive.size() << endl;
-
-    // Using Bitmasking Approach
-    cout << "\nUsing Bitmasking Approach:" << endl;
-    vector<string> powerSetBitmask = getAllSubsequencesBitmask(input);
-    for (const string &subseq : powerSetBitmask) {
-        cout << subseq << " ";
-    }
-    cout << "\nTotal number of subsequences: " << powerSetBitmask.size() << endl;
-
+    
     return 0;
 }
-

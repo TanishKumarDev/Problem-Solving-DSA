@@ -13,26 +13,41 @@ Time: O(n^2) → each insertAtBottom takes O(n) time, called n times.
 Space: O(n) → for recursion call stack.
 
 */
-
-/*
- * Function to insert an element in sorted order into a stack
- */
-void insertAtBottom(stack<int> &s, int x)
-{
-    if(s.empty() || s.top() < x)
-    {
+// Helper function to insert an element at the bottom of the stack
+// Takes a stack reference and the element to insert
+// Uses recursion to reach the bottom by removing all elements first
+void insertAtBottom(stack<int> &s, int x) {
+    // Base case: if stack is empty, insert element
+    if (s.empty()) {
         s.push(x);
         return;
     }
+    
+    // Remove top element
     int temp = s.top();
     s.pop();
-
-    sortedInsert(s, x);
-
+    // Recursively call to reach bottom
+    insertAtBottom(s, x);
+    // Add back the removed element
     s.push(temp);
 }
 
-
+// Main function to reverse a stack using recursion
+// Takes a stack reference as parameter
+void reverseStack(stack<int> &s) {
+    // Base case: if stack is empty, return
+    if (s.empty()) {
+        return;
+    }
+    
+    // Remove top element
+    int x = s.top();
+    s.pop();
+    // Recursively reverse rest of stack
+    reverseStack(s);
+    // Insert removed element at bottom
+    insertAtBottom(s, x);
+}
 
 int main()
 {
