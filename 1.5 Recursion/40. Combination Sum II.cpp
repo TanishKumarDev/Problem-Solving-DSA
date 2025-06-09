@@ -48,8 +48,7 @@ using namespace std;
 
 class Solution {
 private:
-    void findCombinations(int index, int target, vector<int>& arr, 
-                         vector<vector<int>>& ans, vector<int>& curr) {
+    void findCombinations(int index, int target, vector<int>& arr, vector<vector<int>>& ans, vector<int>& curr) {
         // Base case: if target becomes 0, we found a valid combination
         if (target == 0) {
             ans.push_back(curr);
