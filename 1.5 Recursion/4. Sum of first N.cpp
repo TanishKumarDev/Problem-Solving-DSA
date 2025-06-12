@@ -1,105 +1,59 @@
-/**
- * Approaches:
- * 1. Parameterized Recursion
- * 2. Non-Parameterized Recursion
- * 3. Functional Recursion (Return type)
- * 
- * Intuition:
- * - We can break down the sum into smaller subproblems
- * - For N=5: 1+2+3+4+5 = (1+2+3+4) + 5 = ((1+2+3) + 4) + 5 = ...
- * - Each recursive call handles one number and delegates rest to next call
- */
+// Problem Statement
+// Sum of first N natural numbers using recursion.
+
+// Example: If n=5, output should be: 15
 
 #include <bits/stdc++.h>
 using namespace std;
+// Approach 1 : Parameterized Recursion
 
-/**
- * Approach 1: Parameterized Recursion
- * - Passes the sum as a parameter through each recursive call
- * - More functional programming style
- * - No global variables needed
- * 
- * TC: O(n) - Makes n recursive calls
- * SC: O(n) - Recursion stack space
- */
-void sumOfN_param(int n, int sum) {
-    // Base case: when n becomes 0, print the accumulated sum
-    if (n < 1) {
-        cout << "Parameterized Sum: " << sum << endl;
-        return;
-    }
-    // Recursive call: add current number to sum and decrement n
-    sumOfN_param(n - 1, sum + n);
-}
+// Intuition
+// We need to calculate the sum of the first N natural numbers using recursion. The idea is to use a recursive function that adds the current number to the sum of the previous numbers until it reaches 0.
 
-/**
- * Approach 2: Non-Parameterized Recursion
- * - Uses a global variable to accumulate the sum
- * - More imperative programming style
- * - Note: Global variable needs to be reset if function called multiple times
- * 
- * TC: O(n) - Makes n recursive calls
- * SC: O(n) - Recursion stack space
- */
-int sum_nonparam = 0;  // Global variable to store sum
-void sumOfN_nonparam(int n) {
-    // Base case: when n becomes 0, print the accumulated sum
-    if (n < 1) {
-        cout << "Non-Parameterized Sum: " << sum_nonparam << endl;
-        return;
-    }
-    // Add current number to global sum
-    sum_nonparam += n;
-    // Recursive call with decremented n
-    sumOfN_nonparam(n - 1);
-}
+// Algorithm
+// 1. Define a recursive function that takes one parameter: the current number.
+// 2. The function will add the current number to the sum of the previous numbers.
+// 3. Base Case: If the current number is 0, we return 0.
+// 4. Return the current number plus the sum of the previous numbers.
 
-/**
- * Approach 3: Functional Recursion (Return type)
- * - Returns the sum instead of printing it
- * - Most pure functional approach
- * - No global variables or parameters needed for sum
- * 
- * TC: O(n) - Makes n recursive calls
- * SC: O(n) - Recursion stack space
- */
-int sumOfN_functional(int n) {
-    // Base case: sum of 0 is 0
+// T.C: O(n) - Makes n recursive calls
+// S.C: O(n) - Recursion stack space
+int functionalSum(int n) {
+    // Base case: If n is 0, return 0
     if (n == 0) return 0;
     
-    // Recursive call: current number + sum of remaining numbers
-    return n + sumOfN_functional(n - 1);
+    // Recursive case: Return n + sum of first (n-1) natural numbers
+    return n + functionalSum(n - 1);
 }
 
-// 🎯 Driver Function
+// Approach 2 : Parameterized Recursion
+
+// Intuition
+// We need to calculate the sum of the first N natural numbers using recursion. The idea is to use a recursive function that takes an additional parameter to keep track of the accumulated sum.
+
+// Algorithm
+// 1. Define a recursive function that takes two parameters: the current number and the accumulated sum.
+// 2. The function will add the current number to the accumulated sum.
+// 3. Base Case: If the current number is less than 1, we return the accumulated sum.
+// 4. Return the accumulated sum plus the current number and make a recursive call with the next lower number.
+
+// T.C: O(n) - Makes n recursive calls
+// S.C: O(n) - Recursion stack space
+int parameterizedSum(int n, int sum) {
+    if(n < 1) return sum;
+
+    return parameterizedSum(n - 1, sum + n);
+}
+
 int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
     int n;
-    cout << "Enter a number N: ";
     cin >> n;
-    
-    // Approach 1: Parameterized Recursion
-    cout << "\nApproach 1 - Parameterized Recursion:" << endl;
-    sumOfN_param(n, 0);
-    
-    // Approach 2: Non-Parameterized Recursion
-    cout << "\nApproach 2 - Non-Parameterized Recursion:" << endl;
-    sum_nonparam = 0;  // Reset global variable
-    sumOfN_nonparam(n);
-    
-    // Approach 3: Functional Recursion
-    cout << "\nApproach 3 - Functional Recursion:" << endl;
-    cout << "Functional Sum: " << sumOfN_functional(n) << endl;
-    
+
+    cout <<  "functionalSum " << functionalSum(n)<< endl;
+    cout <<  "parameterizedSum " << parameterizedSum(n,0)<< endl;
+
     return 0;
 }
-
-/**
- * Additional Notes:
- * 1. All approaches have same time and space complexity
- * 2. Parameterized and Functional approaches are preferred as they:
- *    - Don't use global variables
- *    - Are more thread-safe
- *    - Can be called multiple times without side effects
- * 3. For very large N, consider using the mathematical formula: n*(n+1)/2
- *    which gives O(1) time and space complexity
- */

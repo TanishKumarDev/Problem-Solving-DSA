@@ -1,53 +1,46 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// 🔄 Approach 1: Decrementing Recursion
+// Problem Statement
+// Print numbers from N to 1 using recursion.
+// Example: If n=5, output should be:
+// 5
+// 4
+// 3
+// 2
+// 1
+
+// Intuition
+// We need to print numbers from N to 1 using recursion. The idea is to use a recursive function that prints the current number and calls itself with the next lower number until it reaches 1.
+
+// Algorithm
+// 1. Define a recursive function that takes one parameter: the current number.
+// 2. The function will print the current number and call itself with the next lower number.
+// 3. Base Case: If the current number is 0, we stop the recursion.
+// 4. Print the current number.
+// 5. Make a recursive call to print the next lower number.
+
 // T.C: O(n) - Makes n recursive calls
 // S.C: O(n) - Recursion stack space
-void printNto1_Decrement(int i) {
-    // Base case: Stop when we reach 0
-    if (i < 1) return;
 
-    // Print current number
-    cout << i << endl;
-    
-    // Recursive call with decrement
-    printNto1_Decrement(i - 1);
+void printName(int n) {
+    // Base condition
+    if(n == 0)
+    return;
+    // Print the current value
+    cout << n << endl;
+    // Recursive call
+    printName(n-1);
 }
 
-// ⚡ Approach 2: Using Backtracking
-// T.C: O(n) - Makes n recursive calls
-// S.C: O(n) - Recursion stack space
-void printNto1_Backtrack(int i, int n) {
-    // Base case: Stop when we exceed n
-    if (i > n) return;
-    
-    // Recursive call first (backtracking)
-    printNto1_Backtrack(i + 1, n);
-    
-    // Print after recursion (this will print in reverse)
-    cout << i << endl;
-}
-
-// 🎯 Driver Function
 int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
     int n;
-    // Input: n (print numbers from n to 1)
     cin >> n;
 
-    cout << "Approach 1 (Decrementing):\n";
-    printNto1_Decrement(n);
+    printName(n);
 
-    cout << "\nApproach 2 (Backtracking):\n";
-    printNto1_Backtrack(1, n);
-    
     return 0;
 }
-
-/* 
-📝 Note: Both approaches achieve the same result but demonstrate different recursive thinking:
-1. Decrementing: Direct approach, starts from n and decrements
-2. Backtracking: Starts from 1, reaches n, then prints while returning
-   - This is a good example of how recursion can be used for reverse operations
-   - Useful pattern for many other problems (like printing array in reverse)
-*/
