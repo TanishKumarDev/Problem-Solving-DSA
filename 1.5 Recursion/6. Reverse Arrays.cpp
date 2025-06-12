@@ -1,141 +1,98 @@
-/**
+// Problem Statement: Reverse an array, You are given a string s. Your task is to determine if the string is a palindrome. A string is considered a palindrome if it reads the same forwards and backwards.
+// https://www.geeksforgeeks.org/problems/palindrome-string0817/1
 
- * Problem: Reverse an array in-place
- * Example: [1, 2, 3, 4, 5] -> [5, 4, 3, 2, 1]
- * 
- * Approaches:
- * 1. Recursive Two-Pointer Approach
- * 2. Iterative Two-Pointer Approach
- * 3. Using Stack (Extra Space)
- * 
- * Intuition:
- * - We can reverse array by swapping elements from both ends
- * - For array of length n, we need n/2 swaps
- * - Each swap brings one element to its correct position
- * - Process continues until we reach the middle
- */
+// Examples :
 
+// Input: s = "abba"
+// Output: true
+
+// Explanation: "abba" reads the same forwards and backwards, so it is a palindrome.
 #include <bits/stdc++.h>
 using namespace std;
 
-/**
- * Approach 1: Recursive Two-Pointer Approach
- * - Uses two pointers (left and right) moving toward center
- * - Swaps elements at both pointers in each recursive call
- * - Modifies array in-place
- * 
- * TC: O(n/2) = O(n) - Makes n/2 recursive calls
- * SC: O(n/2) = O(n) - Recursion stack space
- */
-void reverseArrayRecursive(vector<int> &arr, int l, int r) {
-    // Base case: when left pointer crosses or meets right pointer
-    if (l >= r) return;
-
-    // Swap elements at positions l and r
-    swap(arr[l], arr[r]);
-
-    // Recursive call moving pointers toward center
-    reverseArrayRecursive(arr, l + 1, r - 1);
-}
-
-/**
- * Approach 2: Iterative Two-Pointer Approach
- * - Uses while loop instead of recursion
- * - More space efficient
- * - Same logic as recursive approach
- * 
- * TC: O(n/2) = O(n) - Makes n/2 swaps
- * SC: O(1) - Constant space
- */
-void reverseArrayIterative(vector<int> &arr) {
-    int l = 0, r = arr.size() - 1;
-    while (l < r) {
-        swap(arr[l], arr[r]);
-        l++;
-        r--;
+// Function to print the array
+void printArray(const int arr[], int n) {
+    if (arr == nullptr || n == 0) {
+        cout << "Array is empty or null." << endl;
+        return;
     }
-}
-
-/**
- * Approach 3: Using Stack (Extra Space)
- * - Uses stack to store elements temporarily
- * - Not in-place, uses extra space
- * - Demonstrates alternative approach
- * 
- * TC: O(n) - Two passes through array
- * SC: O(n) - Extra space for stack
- */
-vector<int> reverseArrayStack(vector<int> arr) {
-    stack<int> st;
-    // Push all elements to stack
-    for (int x : arr) {
-        st.push(x);
-    }
-    // Pop elements to get reversed array
-    for (int i = 0; i < arr.size(); i++) {
-        arr[i] = st.top();
-        st.pop();
-    }
-    return arr;
-}
-
-// Helper function to print array
-void printArray(const vector<int> &arr, const string &prefix = "") {
-    cout << prefix;
-    for (int x : arr) {
-        cout << x << " ";
-    }
+    for (int i = 0; i < n; i++) cout << arr[i] << " ";
     cout << endl;
 }
 
-// 🎯 Driver Function
-int main() {
-    // Test array
-    vector<int> arr = {1, 2, 3, 4, 5};
-    cout << "Original array: ";
-    printArray(arr);
-    
-    // Approach 1: Recursive
-    vector<int> arr1 = arr;  // Create copy for testing
-    reverseArrayRecursive(arr1, 0, arr1.size() - 1);
-    cout << "\nApproach 1 - Recursive Two-Pointer:" << endl;
-    printArray(arr1, "Reversed array: ");
-    
-    // Approach 2: Iterative
-    vector<int> arr2 = arr;  // Create copy for testing
-    reverseArrayIterative(arr2);
-    cout << "\nApproach 2 - Iterative Two-Pointer:" << endl;
-    printArray(arr2, "Reversed array: ");
-    
-    // Approach 3: Stack
-    vector<int> arr3 = reverseArrayStack(arr);
-    cout << "\nApproach 3 - Using Stack:" << endl;
-    printArray(arr3, "Reversed array: ");
-    
-    return 0;
+// Approach 1: Reverse using Brute Force
+// Intuition:
+// - Create a new array and copy elements from the input array in reverse order.
+// - This is a straightforward method that preserves the original array but requires extra space.
+// - It is simple to implement and useful for understanding the problem, but not ideal for memory-constrained scenarios.
+// Time Complexity: O(n), Space Complexity: O(n)
+void reverseBrute(const int arr[], int n, int ans[]) {
+    if (arr == nullptr || n == 0) return; // Edge case: null or empty array
+    for (int i = n - 1; i >= 0; i--) {
+        ans[n - 1 - i] = arr[i];
+    }
 }
 
-/**
- * Additional Notes:
- * 1. Two-Pointer Technique:
- *    - Very efficient for in-place operations
- *    - Common pattern in array manipulation
- *    - Works for both even and odd length arrays
- * 
- * 2. Recursive vs Iterative:
- *    - Iterative is more space efficient (O(1) vs O(n))
- *    - Both have same time complexity O(n)
- *    - Recursive is more elegant but can cause stack overflow for large arrays
- * 
- * 3. Edge Cases:
- *    - Empty array: no operation needed
- *    - Single element: no operation needed
- *    - Even length: pointers meet at middle
- *    - Odd length: pointers cross at middle
- * 
- * 4. Applications:
- *    - String reversal
- *    - Palindrome checking
- *    - Array rotation
- *    - Two-pointer problems
- */ 
+// Approach 2: Reverse using Recursion
+// Intuition:
+// - Recursively swap elements from the start and end of the array, moving inward until the pointers meet.
+// - This approach leverages the call stack to manage the reversal process, making the code concise.
+// - It is elegant but may not be suitable for very large arrays due to recursion stack space.
+// Time Complexity: O(n), Space Complexity: O(n/2) due to recursion stack
+void reverseRecursive(int arr[], int start, int end) {
+    if (arr == nullptr || start >= end) return; // Edge case: null or no swaps needed
+    swap(arr[start], arr[end]);
+    reverseRecursive(arr, start + 1, end - 1);
+}
+
+// Approach 3 Optimal: Reverse using Two Pointers
+// Intuition:
+// - Use two pointers starting at opposite ends of the array and swap elements while moving toward the center.
+// - This method is efficient as it operates in-place, requiring no extra space.
+// - It is the most practical approach for most scenarios due to its simplicity and minimal resource usage.
+// Time Complexity: O(n), Space Complexity: O(1)
+void reverseTwoPointers(int arr[], int n) {
+    if (arr == nullptr || n <= 1) return; // Edge case: null, empty, or single element
+    int left = 0, right = n - 1;
+    while (left < right) {
+        swap(arr[left], arr[right]);
+        left++;
+        right--;
+    }
+}
+
+// Approach 4: Reverse using Library Method
+// Intuition:
+// - Utilize the standard library's reverse function to perform the reversal in-place.
+// - This approach is concise and leverages optimized library code, reducing the chance of implementation errors.
+// - It is ideal when code simplicity and reliability are prioritized over custom implementation.
+// Time Complexity: O(n), Space Complexity: O(1)
+void reverseLibrary(int arr[], int n) {
+    if (arr == nullptr || n == 0) return; // Edge case: null or empty array
+    reverse(arr, arr + n);
+}
+int main() {
+    // Test Case 1: Standard array
+    int arr[] = {5, 4, 3, 2, 1};
+    int n = sizeof(arr) / sizeof(arr[0]);
+
+    reverseBrute(arr, n, arr);
+    cout << "Reversed using Brute Force: ";
+    printArray(arr, n);
+
+    reverseRecursive(arr, 0, n - 1);
+    cout << "Reversed using Recursion: ";
+    printArray(arr, n);
+
+    reverseTwoPointers(arr, n);
+    cout << "Reversed using Two Pointers: ";
+    printArray(arr, n);
+
+    reverseLibrary(arr, n);
+    cout << "Reversed using Library Method: ";
+    printArray(arr, n);
+
+
+
+    return 0;
+}

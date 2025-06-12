@@ -1,6 +1,11 @@
 /**  
  * Problem: Check if a string reads the same forwards and backwards
- * Examples: 
+ * 
+ * A string is a palindrome if it remains unchanged when reversed.
+ * 
+ * https://www.geeksforgeeks.org/problems/palindrome-string0817/1
+ * 
+ * - Examples:
  * - "madam" -> true (reads same forwards and backwards)
  * - "hello" -> false (reads different)
  * - "racecar" -> true
@@ -80,8 +85,7 @@ bool isPalindromeReversal(string& s) {
 
 // Helper function to print result
 void printResult(const string& s, bool isPal) {
-    cout << "String: \"" << s << "\" is " 
-         << (isPal ? "a palindrome" : "not a palindrome") << endl;
+    cout << "String: \"" << s << "\" is " << (isPal ? "a palindrome" : "not a palindrome") << endl;
 }
 
 // 🎯 Driver Function

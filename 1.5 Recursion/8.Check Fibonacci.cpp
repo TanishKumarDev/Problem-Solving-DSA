@@ -1,5 +1,16 @@
 /**
- * Problem: Calculate the nth Fibonacci number and Fibonacci series
+ * Problem: Calculate the nth Fibonacci number and Fibonacci series 
+ * https://leetcode.com/problems/fibonacci-number/description/ 
+ * 
+ * Fibonacci numbers are a sequence where each number is the sum of the two preceding ones, usually starting with 0 and 1.
+ * 
+ * Examples:
+ * - F(0) = 0   
+ * - F(1) = 1
+ * - F(2) = 1 (0 + 1)
+ * - F(3) = 2 (1 + 1)
+ * - F(4) = 3 (1 + 2)
+ * - F(5) = 5 (2 + 3)
  * Fibonacci Sequence: 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, ...
  * F(n) = F(n-1) + F(n-2) where F(0) = 0 and F(1) = 1
  * 
