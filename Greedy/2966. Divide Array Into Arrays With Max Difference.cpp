@@ -22,13 +22,37 @@ using namespace std;
 // SC:
 
 // 🟢 Approach 3 Optimal:
-// Intuition: Sort the array first, like lining up people by height, so nearby numbers are close. Then, pick groups of 3 next to each other. If any group’s max-min > k, it’s impossible, bhai!
+// Intuition:
+// 1. We're told to divide the array into groups of size 3.
+//    The array length is guaranteed to be divisible by 3, so we will have n / 3 triplets.
+// 2. The goal is to ensure that within each group, the maximum and minimum difference is at most k.
+//    That means: max(group) - min(group) ≤ k
+// 3. Here's the trick — to minimize the difference in a triplet, we must group the **closest values** together.
+//
+// 4. Sorting helps us achieve that — after sorting, the closest elements are next to each other.
+//    This gives us the best chance to form valid triplets: [nums[i], nums[i+1], nums[i+2]]
+// 5. Now, we iterate in steps of 3 and check whether each triplet is valid:
+//      if (nums[i+2] - nums[i] ≤ k), we can safely form a triplet
+//      else → return empty array (as even 1 invalid triplet breaks the problem constraints)
+// 6. Add each valid group of 3 to the result vector and return it at the end.
+//
+// Sorting ensures correctness
+// Greedy selection in fixed triplets (no backtracking needed)
+// 
 // Algo: 
-//   1. Check if array size is divisible by 3. If not, return empty. --> not necessary --> already give that " where n is a multiple of 3"
-//   2. Sort the array to minimize differences.
-//   3. Loop through array in steps of 3.
-//   4. For each triplet, check if max-min > k. If so, return empty. --> invalid    
-//   5. If valid, add triplet to result.
+// - Sort the array
+// - Initialize result array
+// - Loop over array in steps of 3:
+//     - Check if nums[i+2] - nums[i] > k
+//         → return {} if invalid
+//     - else push {nums[i], nums[i+1], nums[i+2]} to result
+// - Return result
+// 
+// // 🧠 Core Idea: 
+// - Sorting ensures we group closest elements
+// - Fixed-size sliding (3) ensures constraint on group size
+// - Greedy validation on sorted groups ensures optimal, minimal check
+//
 // TC: O(n log n) - Sorting takes the most time, rest is quick like 
 // SC: O(n) - For output array (or O(log n) if output not counted, due to sorting stack).
 
