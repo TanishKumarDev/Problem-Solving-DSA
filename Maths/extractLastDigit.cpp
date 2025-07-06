@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+
 vector<int> extractDigits(int n)
 {
     vector<int> digits;
