@@ -2,7 +2,7 @@
 
 Hi there! 👋  
 
-This repository is a personal space where I document my journey of mastering Data Structures and Algorithms using C++.
+This repository is a personal space where I document my journey of learning Data Structures and Algorithms using C++.
 
 ## 🛠 Tech Stack
 
