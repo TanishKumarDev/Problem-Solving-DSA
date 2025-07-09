@@ -1,3 +1,8 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+
+// 🔴 Approach 1 
 class Solution {
 public:
     string reversePrefix(string word, char ch) {
@@ -27,3 +32,25 @@ public:
         return word;
     }
 };
+
+
+// 🔵 Approach 2 
+string reversePrefixLibrary(string word, char ch) {
+    // Use string::find to locate the first occurrence of character 'ch'
+    size_t j = word.find(ch); 
+    
+    // If character not found, return the original word
+    if (j == string::npos) return word;
+
+    // Reverse the prefix from start to index j (inclusive)
+    reverse(word.begin(), word.begin() + j + 1);
+
+    // Return the updated word
+    return word;
+}
+
+int main()
+{
+    
+    return 0;
+}
