@@ -13,6 +13,10 @@ public:
     }
 };
 
+// TC: O(n), looping O(n-1) ; where n is the length of the string s
+// SC: O(1), no extra space used, just a few variables
+
+
 /*
 NOTE:
 
