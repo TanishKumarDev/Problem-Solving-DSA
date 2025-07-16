@@ -2,6 +2,8 @@
 using namespace std;
 
 // 🧠 Problem: Palindrome Number (LeetCode 9)
+https://leetcode.com/problems/palindrome-number/submissions/1700483514/
+
 // Example: x = 121 → true, x = -121 → false, x = 10 → false
 // Constraints: -2³¹ <= x <= 2³¹ - 1
 
