@@ -121,7 +121,7 @@ int main()
 
     // Optimal
     cout << "Optimal: " << endl;
-    int ans = optimal(arr, n, k);
+    ans = optimal(arr, n, k);
     if (ans == -1)
     {
         cout << "Element not found" << endl;
