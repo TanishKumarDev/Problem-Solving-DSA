@@ -4,9 +4,16 @@ using namespace std;
 // 🧠 Problem : Given an integer array arr of size N, sorted in ascending order (may contain duplicate values) and a target value k. Now the array is rotated at some pivot point unknown to you. Return True if k is present and otherwise, return False.
 
 // ✅ NOTE : What to Change if there are duplicates?:
-
 // Add a condition to handle cases where arr[low] == arr[mid] == arr[high].
 // This happens when duplicates prevent us from knowing which side is sorted.
+    
+    // Add a check before checking which half is sorted:
+    // if (arr[low] == arr[mid] && arr[mid] == arr[high]) {
+    //     low++;
+    //     high--;
+    // }
+    // 🧠 Why?
+    // To skip duplicates and shrink the search space when decision isn't possible.
 
 // Example :
 // Constraint :
@@ -23,7 +30,7 @@ using namespace std;
 
 // TC : O(N), N = size of the given array.
 // SC : O(1) We have not used any extra data structures, this makes space complexity, even in the worst case as O(1).
-int BruteForce(vector<int> &arr, int n, int k)
+bool BruteForce(vector<int> &arr, int n, int k)
 {
     for (int i = 0; i < n; i++)
     {
@@ -42,23 +49,25 @@ int BruteForce(vector<int> &arr, int n, int k)
 // will always be sorted at every step of binary search.
 // We can use this property to eliminate half the search space in each step.
 
-// Algo :
 // 1. Set low = 0, high = n - 1
 // 2. While low <= high:
 //    - mid = (low + high)/2
 //    - If arr[mid] == key → return mid
+//    - Handle duplicates:
+//        - If arr[low] == arr[mid] == arr[high]:
+//              low++, high--
 //    - Check which half is sorted:
-//        - If arr[low] <= arr[mid], then left half is sorted
-//           - If key lies in left half → high = mid - 1
-//           - Else → low = mid + 1
-//        - Else → right half is sorted
-//           - If key lies in right half → low = mid + 1
-//           - Else → high = mid - 1
+//        - If arr[low] <= arr[mid]:
+//              - If arr[low] <= key < arr[mid] → high = mid - 1
+//              - Else → low = mid + 1
+//        - Else:
+//              - If arr[mid] < key <= arr[high] → low = mid + 1
+//              - Else → high = mid - 1
 // 3. If not found, return -1
 
 // TC : O(log n) → because we’re reducing the search space by half each time
 // SC : O(1) → iterative binary search uses constant space
-int optimal(vector<int> &arr, int n, int k)
+bool optimal(vector<int> &arr, int n, int k)
 {
     int low = 0, high = n - 1;
 
