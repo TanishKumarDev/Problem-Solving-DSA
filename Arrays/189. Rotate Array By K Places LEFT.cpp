@@ -9,12 +9,7 @@ using namespace std;
 // Output: arr = [3, 4, 5, 6, 7, 1, 2]
 
 // 🔴 Approach 1: Brute Force using Extra Array
-// Intuition:
-// Store first k elements in a temp array,
-// shift rest to the front, then put temp at the back.
-
-// TC: O(n)
-// SC: O(k)
+// TC: O(n), SC: O(k)
 void leftRotateBrute(vector<int>& arr, int k) {
     int n = arr.size();
     if (n <= 1 || k == 0) return;
@@ -39,36 +34,27 @@ void leftRotateBrute(vector<int>& arr, int k) {
 }
 
 // 🔵 Approach 2: Optimal using Reversal Algorithm
-// Intuition:
-// 1. Reverse first k elements
-// 2. Reverse remaining n-k elements
-// 3. Reverse the entire array
-
-// TC: O(n)
-// SC: O(1)
-void reversePart(vector<int>& arr, int start, int end) {
-    while (start < end) {
-        swap(arr[start++], arr[end--]);
-    }
-}
-
+// TC: O(n), SC: O(1)
 void leftRotateOptimal(vector<int>& arr, int k) {
     int n = arr.size();
-    if (n <= 1 || k == 0) return;
+    if (n == 0 || k == 0) return;
 
-    k %= n; // Normalize rotation
+    k %= n;
 
-    reversePart(arr, 0, k - 1);     // Reverse first k
-    reversePart(arr, k, n - 1);     // Reverse rest
-    reversePart(arr, 0, n - 1);     // Reverse whole
+    // Step 1: Reverse first k elements
+    reverse(arr.begin(), arr.begin() + k);
+
+    // Step 2: Reverse remaining n-k elements
+    reverse(arr.begin() + k, arr.end());
+
+    // Step 3: Reverse entire array
+    reverse(arr.begin(), arr.end());
 }
 
-// 🔍 Utility: Print array
+// 🔧 Utility Function to Print Array
 void printArray(const vector<int>& arr) {
-    for (int val : arr) {
-        cout << val << " ";
-    }
-    cout << "\n";
+    for (int val : arr) cout << val << " ";
+    cout << endl;
 }
 
 // 🧪 Driver Code
@@ -79,7 +65,7 @@ int main() {
     cout << "Original Array: ";
     printArray(arr);
 
-    // Call any one approach
+    // Use any one approach
     // leftRotateBrute(arr, k);
     leftRotateOptimal(arr, k);
 
