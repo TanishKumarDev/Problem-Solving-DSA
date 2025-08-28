@@ -1,9 +1,0 @@
-Sorting using Bubble Sort
-Sorted Array: 1 2 5 5 9 
-
-Sorting using Merge Sort
-Sorted Array: 2 3 4 7 8 
-
-Sorting using Quick Sort
-Sorted Array: 1 3 5 6 9 
-
